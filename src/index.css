@@ -3,7 +3,8 @@
 }
 
 html {
-  font-family: sans-serif;
+  font-family: "Poor Story", cursive;
+  font-size: 24px;
   background: #fff;
 }
 
@@ -13,4 +14,20 @@ body {
 
 main {
   margin-top: 6rem;
+}
+
+button {
+  font-size: 24px;
+  font-family: "Poor Story", cursive;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+    background: #fff;
+  }
+
+  button {
+    font-size: 14px;
+  }
 }
