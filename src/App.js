@@ -1,8 +1,12 @@
 import "./App.css";
-import Login from "./components/login";
+import Login from "./components/Login";
 
 function App() {
-  return <Login />;
+  return (
+    <main>
+      <Login />
+    </main>
+  );
 }
 
 export default App;
