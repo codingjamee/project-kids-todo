@@ -9,7 +9,7 @@ const Input = (props) => {
         id={props.id}
         value={props.value}
         onChange={props.onChange}
-        placeholder={props.placeholder}
+        title={props.placeholder}
       />
     </div>
   );

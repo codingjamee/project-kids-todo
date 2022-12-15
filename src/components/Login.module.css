@@ -5,6 +5,10 @@
   padding: 2rem;
 }
 
+.login p {
+  text-align: left;
+}
+
 .actions {
   text-align: center;
 }
@@ -15,6 +19,7 @@
   width: 75%;
   border-color: #5dc8cd;
   background: none;
+  cursor: pointer;
 }
 
 .signup {
@@ -38,6 +43,7 @@
   border-color: none;
   background: none;
   margin: 1rem;
+  cursor: pointer;
 }
 
 .snslog {

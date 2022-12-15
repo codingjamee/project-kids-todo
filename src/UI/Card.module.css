@@ -6,3 +6,12 @@
   margin: 2rem 1rem;
   padding: 2rem;
 }
+
+.card p {
+  color: red;
+  font-size: 15px;
+  text-align: left;
+  margin: auto;
+  margin-bottom: 3rem;
+  width: 50%;
+}
