@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from "react";
-import Card from "../UI/Card";
-import Input from "../UI/Input/Input";
+import Card from "../../UI/card/Card";
+import Input from "../../UI/Input/Input";
 import classes from "./Login.module.css";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { BsFacebook } from "react-icons/bs";
@@ -88,15 +88,15 @@ const Login = () => {
           </div>
         </form>
       </Card>
-      <div className={classes.signup}>
+      <div className={classes.join}>
         <button>아이디찾기</button>
         <button>비밀번호 찾기</button>
         <button>회원가입</button>
       </div>
 
       <div className={classes.snslog}>
-        <p>--- SNS 계정으로 로그인 ---</p>
-        <div className={classes.signup}>
+        <p>--- SNS 계정으로 계속하기 ---</p>
+        <div className={classes.join}>
           <button className={classes.kakao}>
             <RiKakaoTalkFill />
           </button>

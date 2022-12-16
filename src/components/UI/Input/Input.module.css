@@ -1,7 +1,6 @@
 .control {
   width: 100%;
   margin: 0 auto;
-  display: flex;
   align-items: stretch;
   flex-direction: column;
 }
@@ -19,9 +18,9 @@
 }
 
 .control input {
-  flex: 3;
+  flex: 2;
   font: inherit;
-  margin: 2rem;
+  margin: 0 auto;
   padding: 0.35rem 0.35rem;
   border-top: none;
   border-left: none;

@@ -14,7 +14,7 @@
 }
 
 .actions button {
-  margin: 2rem;
+  margin: 0 auto;
   padding: 1rem;
   width: 75%;
   border-color: #5dc8cd;
@@ -22,7 +22,7 @@
   cursor: pointer;
 }
 
-.signup {
+.join {
   width: 80%;
   margin: 0 auto;
   display: flex;
@@ -30,19 +30,19 @@
   align-items: center;
 }
 
-.signup p {
+.join p {
   text-align: center;
   width: 80%;
 }
 
-.signup button {
+.join button {
   text-align: center;
   width: 100%;
   height: 20%;
   border: none;
   border-color: none;
   background: none;
-  margin: 1rem;
+  margin: 0 auto;
   cursor: pointer;
 }
 
