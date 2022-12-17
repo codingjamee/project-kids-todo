@@ -1,12 +1,16 @@
 .login {
-  width: 90%;
-  max-width: 40rem;
   margin: 2rem auto;
   padding: 2rem;
 }
 
 .login p {
+  color: red;
+  font-size: 15px;
   text-align: left;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  width: 80%;
 }
 
 .actions {

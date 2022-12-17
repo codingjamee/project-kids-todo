@@ -34,6 +34,7 @@ const Login = () => {
   const [formIsValid, setFormIsValid] = useState("");
   const { isValid: idIsValid } = idState;
   const { isValid: pwIsValid } = pwState;
+  const [login, setLogin] = useState(false);
 
   const submitHandler = (e) => {
     e.preventDefault();

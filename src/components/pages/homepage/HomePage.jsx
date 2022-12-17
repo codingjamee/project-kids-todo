@@ -1,44 +1,19 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Card from "../../UI/card/Card";
 
-import classes from "./HomePage.module.css";
-import {
-  AiOutlinePlusCircle,
-  AiOutlineArrowLeft,
-  AiOutlineArrowRight,
-} from "react-icons/ai";
-
 const HomePage = () => {
-  let date = new Date();
-  console.log();
+  const [login, setLogin] = useState(false);
 
   return (
     <Card>
-      <div className={classes.month}>
-        <Link to="/last-month">
-          <AiOutlineArrowLeft />
-        </Link>
-        <div>{`${date.getMonth() + 1}월 나의미션`}</div>
-        <Link to="/next-month">
-          <AiOutlineArrowRight />
-        </Link>
-      </div>
-      <ul>
-        <li>
-          <Card>
-            <button>
-              <AiOutlinePlusCircle />
-            </button>
-          </Card>
-        </li>
-        <li>
-          <Card>
-            <button>
-              <AiOutlinePlusCircle />
-            </button>
-          </Card>
-        </li>
-      </ul>
+      {login && <Link to="/mission">시작하기</Link>}
+      {!login && (
+        <>
+          <p>미션수행으로 척척박사가 되어보세요!</p>
+          <Link to="/login">시작하기</Link>
+        </>
+      )}
     </Card>
   );
 };
