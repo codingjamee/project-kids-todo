@@ -1,0 +1,69 @@
+.login {
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.login p {
+  color: red;
+  font-size: 15px;
+  text-align: left;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  width: 80%;
+}
+
+.actions {
+  text-align: center;
+}
+
+.actions button {
+  margin: 0 auto;
+  padding: 1rem;
+  width: 75%;
+  border-color: #5dc8cd;
+  background: none;
+  cursor: pointer;
+}
+
+.join {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.join p {
+  text-align: center;
+  width: 80%;
+}
+
+.join button {
+  text-align: center;
+  width: 100%;
+  height: 20%;
+  border: none;
+  border-color: none;
+  background: none;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.snslog {
+  text-align: center;
+  width: 50%;
+  margin: 2rem auto;
+}
+
+.kakao {
+  color: yellow;
+}
+
+.facebook {
+  color: blue;
+}
+
+.gmail {
+  color: red;
+}
