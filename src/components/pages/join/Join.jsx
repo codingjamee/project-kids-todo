@@ -1,5 +1,5 @@
-import Card from "../../UI/card/Card";
-import Input from "../../UI/Input/Input";
+import Card from "../../UI/Card";
+import Input from "../../UI/Input";
 
 const Join = () => {
   return (

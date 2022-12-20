@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from "react";
-import Card from "../../UI/card/Card";
-import Input from "../../UI/Input/Input";
+import Card from "../../UI/Card";
+import Input from "../../UI/Input";
 import classes from "./Login.module.css";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { BsFacebook } from "react-icons/bs";

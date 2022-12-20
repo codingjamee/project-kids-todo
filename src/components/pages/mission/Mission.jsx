@@ -5,10 +5,12 @@ import {
   AiOutlinePlusCircle,
 } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import Card from "../../UI/card/Card";
+import Card from "../../UI/Card";
 import classes from "./Mission.module.css";
+import AddMissionForm from "./AddMissionForm";
+import MissionList from "./MissionList";
 
-const missionList = [
+const missions = [
   {
     id: 1,
     title: "청소하기",
@@ -21,10 +23,28 @@ const missionList = [
 
 const Mission = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [onAddMission, setOnAddMission] = useState(false);
+  const [loadedMissions, setLoadedMissions] = useState([]);
+
   const navigate = useNavigate();
   let date = new Date();
   const thisMonth = date.getMonth() + 1;
-  const onAddMission = () => {};
+
+  const onAddMissionHandler = () => {
+    setOnAddMission((prev) => !prev);
+  };
+
+  const onModifyHandler = (modifiedTitle, targetId) => {
+    setLoadedMissions(
+      missions.map((mission) =>
+        mission.id === targetId ? { ...mission, title: modifiedTitle } : mission
+      )
+    );
+  };
+
+  useEffect(() => {
+    setLoadedMissions(missions);
+  }, []);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -32,45 +52,42 @@ const Mission = () => {
     }
   }, [isLoggedIn, navigate]);
 
-  const onSettingHandler = () => {
-    console.log("setting Clicked!");
-  };
-
-  const onAddMissionHandler = () => {
-    console.log("onAddMissionHandler Clicked!");
-  };
   return (
-    <Card>
-      {isLoggedIn && (
-        <>
-          <div className={classes.month}>
-            <Link to="/last-month">
-              <AiOutlineArrowLeft />
-            </Link>
-            <div>{`${thisMonth}월 나의미션`}</div>
-            <Link to="/next-month">
-              <AiOutlineArrowRight />
-            </Link>
-          </div>
-          <section>
-            <ul>
-              {missionList.map((mission) => (
-                <li key={mission.id}>
-                  <Card onClick={onSettingHandler}>
-                    <p>{mission.title}</p>
-                  </Card>
-                </li>
-              ))}
-              <Card onClick={onAddMissionHandler}>
+    <>
+      <Card>
+        {isLoggedIn && (
+          <>
+            <section className={classes.month}>
+              <Link to="/last-month">
+                <AiOutlineArrowLeft />
+              </Link>
+              <div>{`${thisMonth}월 나의미션`}</div>
+              <Link to="/next-month">
+                <AiOutlineArrowRight />
+              </Link>
+            </section>
+            <section>
+              <ul>
+                {loadedMissions.map((mission) => (
+                  <MissionList
+                    key={mission.id}
+                    id={mission.id}
+                    title={mission.title}
+                    onModify={onModifyHandler}
+                  />
+                ))}
+              </ul>
+              <Card className={classes.pointer} onClick={onAddMissionHandler}>
                 <p>
                   미션추가하기 <AiOutlinePlusCircle />
                 </p>
               </Card>
-            </ul>
-          </section>
-        </>
-      )}
-    </Card>
+            </section>
+          </>
+        )}
+      </Card>
+      {onAddMission && <AddMissionForm onformClose={onAddMissionHandler} />}
+    </>
   );
 };
 

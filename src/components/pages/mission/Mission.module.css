@@ -13,8 +13,6 @@
   padding: 1rem;
 }
 
-.home {
-  border: 1px solid;
-  width: 100%;
-  display: inline;
+.pointer {
+  cursor: pointer;
 }

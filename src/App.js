@@ -15,7 +15,7 @@ function App() {
       <Layout />
       <main>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route exact path="/" element={<HomePage />} />
           <Route path="/join" element={<Join />} />
           <Route path="/login" element={<Login />} />
           <Route path="/memo" element={<Memo />} />
