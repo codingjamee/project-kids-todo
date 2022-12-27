@@ -5,12 +5,12 @@ import Button from "../../UI/Button";
 import Input from "../../UI/Input";
 import Modal from "../../UI/Modal";
 
-const AddMissionForm = (props) => {
+const AddItemForm = (props) => {
   const dispatch = useDispatch();
   const titleRef = createRef();
   const memoRef = createRef();
 
-  const onSubmitAddMission = (e) => {
+  const onSubmitAddItem = (e) => {
     e.preventDefault();
     const enteredTitle = titleRef.current.value;
     const enteredMemo = memoRef.current.value;
@@ -24,12 +24,12 @@ const AddMissionForm = (props) => {
   };
   return (
     <Modal onCloseModal={props.onformClose}>
-      <form onSubmit={onSubmitAddMission}>
-        <Input label="미션명" ref={titleRef} />
-        <Input label="메모" ref={memoRef} />
+      <form onSubmit={onSubmitAddItem}>
+        <Input label="선물명" ref={titleRef} />
+        <Input label="필요포인트" ref={memoRef} />
         <Button type="submit">추가하기</Button>
       </form>
     </Modal>
   );
 };
-export default AddMissionForm;
+export default AddItemForm;

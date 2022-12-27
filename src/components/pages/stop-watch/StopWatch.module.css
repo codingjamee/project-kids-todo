@@ -1,0 +1,19 @@
+.watch {
+  font-size: large;
+}
+
+.watch div {
+  height: 50%;
+  font-size: 2.5rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.buttons Button {
+  padding: 2rem;
+  margin: 0.7rem;
+}
