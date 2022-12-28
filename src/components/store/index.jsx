@@ -7,7 +7,7 @@ const missionSlice = createSlice({
   initialState,
   reducers: {
     add(state, action) {
-      state = action.payload;
+      state.items = action.payload;
     },
     modify(state, action) {
       if (state.id === action.payload.id) {
