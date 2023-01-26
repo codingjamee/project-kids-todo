@@ -7,11 +7,17 @@ import { v4 as uuidv4 } from "uuid";
 const StopWatch = () => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
+  const [first, setFirst] = useState(false);
   const [start, setStart] = useState(false);
   const [records, setRecords] = useState([]);
 
+  console.log(first);
   const startHandler = () => {
     setStart((prev) => !prev);
+  };
+
+  const firstStart = () => {
+    setFirst((prev) => !prev);
   };
 
   const resetHandler = () => {
@@ -44,13 +50,18 @@ const StopWatch = () => {
     <>
       <Card>
         <div className={classes.watch}>
-          <div>
-            {minutes}분 {seconds < 10 ? `0${seconds}` : seconds} 초 지났어요
-          </div>
+          {!first && (
+            <div>
+              {minutes}분 {seconds < 10 ? `0${seconds}` : seconds} 초 지났어요
+            </div>
+          )}
           <div className={classes.buttons}>
-            <Button onClick={startHandler}>
-              {start ? "일시정지" : "시작"}
-            </Button>
+            {first && <Button onClick={firstStart}>첫시작</Button>}
+            {!first && (
+              <Button onClick={startHandler}>
+                {start ? "일시정지" : "시작"}
+              </Button>
+            )}
             <Button onClick={resetHandler}>초기화</Button>
             <Button onClick={recordHandler}>기록</Button>
           </div>

@@ -17,7 +17,7 @@ const sampleMissions = [
 ];
 
 const Mission = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [onAddMission, setOnAddMission] = useState(false);
   const [loadedMissions, setLoadedMissions] = useState(sampleMissions);
   const [isLoading, setIsLoading] = useState(false);
@@ -67,41 +67,39 @@ const Mission = () => {
   }, [isLoggedIn, navigate]);
 
   return (
-    <>
-      <Card>
-        {isLoggedIn && (
-          <>
-            <section className={classes.month}>
-              <Link to="/last-month">
-                <AiOutlineArrowLeft />
-              </Link>
-              <div>{`${thisMonth}월 나의미션`}</div>
-              <Link to="/next-month">
-                <AiOutlineArrowRight />
-              </Link>
-            </section>
-            <section>
-              <ul>
-                {loadedMissions.map((mission) => (
-                  <MissionList
-                    key={mission.id}
-                    id={mission.id}
-                    title={mission.title}
-                    onModify={onModifyHandler}
-                  />
-                ))}
-              </ul>
-              <Card className={classes.pointer} onClick={onAddMissionHandler}>
-                <p>
-                  미션추가하기 <AiOutlinePlusCircle />
-                </p>
-              </Card>
-            </section>
-          </>
-        )}
-      </Card>
+    <Card>
+      {isLoggedIn && (
+        <>
+          <section className={classes.month}>
+            <Link to="/last-month">
+              <AiOutlineArrowLeft />
+            </Link>
+            <div>{`${thisMonth}월 나의미션`}</div>
+            <Link to="/next-month">
+              <AiOutlineArrowRight />
+            </Link>
+          </section>
+          <section>
+            <ul>
+              {loadedMissions.map((mission) => (
+                <MissionList
+                  key={mission.id}
+                  id={mission.id}
+                  title={mission.title}
+                  onModify={onModifyHandler}
+                />
+              ))}
+            </ul>
+            <Card className="act" onClick={onAddMissionHandler}>
+              <p>
+                미션추가하기 <AiOutlinePlusCircle />
+              </p>
+            </Card>
+          </section>
+        </>
+      )}
       {onAddMission && <AddMissionForm onformClose={onAddMissionHandler} />}
-    </>
+    </Card>
   );
 };
 

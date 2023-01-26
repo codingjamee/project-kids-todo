@@ -51,7 +51,7 @@ const PointMall = () => {
                   />
                 ))}
               </ul>
-              <Card onClick={onAddItemHandler}>
+              <Card className="act" onClick={onAddItemHandler}>
                 <p>
                   선물추가하기 <AiOutlinePlusCircle />
                 </p>

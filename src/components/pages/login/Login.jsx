@@ -6,14 +6,15 @@ import { RiKakaoTalkFill } from "react-icons/ri";
 import { BsFacebook } from "react-icons/bs";
 import { SiGmail } from "react-icons/si";
 
+//id유효성체크, @이 포함되어있는가?
 const idReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
     return { value: action.val, isValid: action.val.includes("@") };
   }
-
   return { value: "", isValid: false };
 };
 
+//pw유효성 체크, 띄어쓰기 비포함, 6자이상인가?
 const pwReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
     return { value: action.val, isValid: action.val.trim().length > 6 };
@@ -39,7 +40,7 @@ const Login = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("submit clicked");
-    console.log(idState, pwState);
+    console.log(idState.value, pwState.value);
   };
 
   const idChangeHandler = (e) => {

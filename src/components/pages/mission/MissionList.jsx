@@ -16,7 +16,7 @@ const MissionList = (props) => {
   return (
     <>
       <li key={props.id}>
-        <Card onClick={missionDetailHandler} className={classes.pointer}>
+        <Card onClick={missionDetailHandler} className="act">
           <p>{props.title}</p>
         </Card>
       </li>

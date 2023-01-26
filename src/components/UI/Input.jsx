@@ -12,6 +12,7 @@ const Input = React.forwardRef((props, ref) => {
         value={props.value}
         onChange={props.onChange}
         title={props.placeholder}
+        onBlur={props.onBlur}
       />
     </div>
   );
