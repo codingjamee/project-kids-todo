@@ -10,6 +10,9 @@ const idReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
     return { value: action.val, isValid: action.val.includes("@") };
   }
+  if (action.type === "INPUT_BLUR") {
+    return { value: state.value, isValid: state.value.includes("@") };
+  }
 
   return { value: "", isValid: false };
 };
@@ -18,18 +21,20 @@ const pwReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
     return { value: action.val, isValid: action.val.trim().length > 6 };
   }
-
+  if (action.type === "INPUT_BLUR") {
+    return { value: state.value, isValid: state.value.trim().length > 6 };
+  }
   return { value: "", isValid: false };
 };
 
 const Login = () => {
   const [idState, dispatchId] = useReducer(idReducer, {
     value: "",
-    isValid: false,
+    isValid: true,
   });
   const [pwState, dispatchPw] = useReducer(pwReducer, {
     value: "",
-    isValid: false,
+    isValid: true,
   });
   const [formIsValid, setFormIsValid] = useState("");
   const { isValid: idIsValid } = idState;
@@ -45,8 +50,14 @@ const Login = () => {
   const idChangeHandler = (e) => {
     dispatchId({ type: "USER_INPUT", val: e.target.value });
   };
+  const idBlurHandler = (e) => {
+    dispatchId({ type: "INPUT_BLUR" });
+  };
   const pwChangeHandler = (e) => {
     dispatchPw({ type: "USER_INPUT", val: e.target.value });
+  };
+  const pwBlurHandler = (e) => {
+    dispatchPw({ type: "INPUT_BLUR" });
   };
 
   useEffect(() => {
@@ -67,6 +78,7 @@ const Login = () => {
             id="email"
             label="아이디(이메일)"
             onChange={idChangeHandler}
+            onBlur={idBlurHandler}
             value={idState.value}
             placeholder="아이디를 입력해주세요"
           />
@@ -78,6 +90,7 @@ const Login = () => {
             id="password"
             label="비밀번호"
             onChange={pwChangeHandler}
+            onBlur={pwBlurHandler}
             value={pwState.value}
             placeholder="비밀번호를 입력해주세요"
           />
