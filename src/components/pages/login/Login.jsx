@@ -5,7 +5,10 @@ import classes from "./Login.module.css";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { BsFacebook } from "react-icons/bs";
 import { SiGmail } from "react-icons/si";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/auth";
 
+// id유효성 검사
 const idReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
     return { value: action.val, isValid: action.val.includes("@") };
@@ -17,6 +20,7 @@ const idReducer = (state, action) => {
   return { value: "", isValid: false };
 };
 
+// pw유효성 검사
 const pwReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
     return { value: action.val, isValid: action.val.trim().length > 6 };
@@ -40,23 +44,48 @@ const Login = () => {
   const { isValid: idIsValid } = idState;
   const { isValid: pwIsValid } = pwState;
   const [login, setLogin] = useState(false);
+  const dispatch = useDispatch();
 
+  //로그인 버튼 클릭시, api통신
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("submit clicked");
     console.log(idState, pwState);
+    const formData = new FormData();
+    formData.append("username", `${idState.value}`);
+    formData.append("password", `${pwState.value}`);
+
+    fetch("http://localhost:8000/login/", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Something wrong! The status is ${res.status}`);
+        } else {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        localStorage.setItem("authKey", data.Authorization);
+        dispatch(authActions.login(data.Authorization)); //store/auth에 access token을 저장
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
   };
 
   const idChangeHandler = (e) => {
     dispatchId({ type: "USER_INPUT", val: e.target.value });
   };
-  const idBlurHandler = (e) => {
+  const idBlurHandler = () => {
     dispatchId({ type: "INPUT_BLUR" });
   };
   const pwChangeHandler = (e) => {
     dispatchPw({ type: "USER_INPUT", val: e.target.value });
   };
-  const pwBlurHandler = (e) => {
+  const pwBlurHandler = () => {
     dispatchPw({ type: "INPUT_BLUR" });
   };
 

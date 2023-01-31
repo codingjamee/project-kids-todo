@@ -10,6 +10,7 @@ const Input = (props) => {
         value={props.value}
         onChange={props.onChange}
         title={props.placeholder}
+        onBlur={props.onBlur}
       />
     </div>
   );
