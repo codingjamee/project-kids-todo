@@ -1,12 +1,14 @@
 import { useEffect, useReducer, useState } from "react";
 import Card from "../../UI/card/Card";
 import Input from "../../UI/Input/Input";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/auth";
+import Cookies from "universal-cookie";
+import jwt from "jwt-decode";
 import classes from "./Login.module.css";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { BsFacebook } from "react-icons/bs";
 import { SiGmail } from "react-icons/si";
-import { useDispatch } from "react-redux";
-import { authActions } from "../../store/auth";
 
 // id유효성 검사
 const idReducer = (state, action) => {
@@ -45,12 +47,15 @@ const Login = () => {
   const { isValid: pwIsValid } = pwState;
   const [login, setLogin] = useState(false);
   const dispatch = useDispatch();
+  const cookies = new Cookies();
 
   //로그인 버튼 클릭시, api통신
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("submit clicked");
     console.log(idState, pwState);
+
+    //login시 필요한 data형식이 formData이므로 형식에 맞게 만들어주기
     const formData = new FormData();
     formData.append("username", `${idState.value}`);
     formData.append("password", `${pwState.value}`);
@@ -68,9 +73,20 @@ const Login = () => {
       })
       .then((data) => {
         console.log(data);
-        localStorage.setItem("authKey", data.Authorization);
+        // localStorage.setItem("authKey", data.Authorization);
+        //로컬스토리지에 저장하는 방식은 보안상 취약하므로 아래의 방식으로 변경
         dispatch(authActions.login(data.Authorization)); //store/auth에 access token을 저장
+        //token을 decode
+        const decoded = jwt(data.Authorization);
+        //user정보를 저장
+        dispatch(authActions.user(decoded));
+        //refresh token을 cookie에 저장
+        cookies.set("jwt_authorization", data.RefreshToken, {
+          expires: new Date(decoded.exp * 1000), //파기될때 삭제
+          httpOnly: true,
+        });
       })
+
       .catch((error) => {
         console.error(error.message);
       });
@@ -89,6 +105,8 @@ const Login = () => {
     dispatchPw({ type: "INPUT_BLUR" });
   };
 
+  // idState와 pwState가 변경될 때마다 validCheck
+  // 0.1초마다 하는데 check가 남아있지 않도록 다시 시작할때마다 clearTimeout 실행
   useEffect(() => {
     const validCheck = setTimeout(() => {
       setFormIsValid(idIsValid && pwIsValid);
