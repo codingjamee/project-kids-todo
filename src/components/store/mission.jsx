@@ -1,4 +1,4 @@
-import { createSlice, configureStore } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = { items: [], point: 0 };
 
@@ -42,8 +42,5 @@ export const sendMissionData = (mission) => {
   };
 };
 
-const store = configureStore({ reducer: missionSlice.reducer });
-
 export const missionActions = missionSlice.actions;
-
-export default store;
+export default missionSlice.reducer;
