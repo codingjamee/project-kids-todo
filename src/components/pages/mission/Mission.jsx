@@ -9,6 +9,8 @@ import Card from "../../UI/Card";
 import classes from "./Mission.module.css";
 import AddMissionForm from "./AddMissionForm";
 import MissionList from "./MissionList";
+import { useSelector } from "react-redux";
+import auth, { authActions } from "../../store/auth";
 
 const sampleMissions = [
   { id: 125123, title: "왕자님 만나기" },
@@ -17,10 +19,12 @@ const sampleMissions = [
 ];
 
 const Mission = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [onAddMission, setOnAddMission] = useState(false);
   const [loadedMissions, setLoadedMissions] = useState(sampleMissions);
   const [isLoading, setIsLoading] = useState(false);
+  // const authToken = useSelector((state) => state.auth.token);
+  const authKey = localStorage.getItem("authKey");
 
   const navigate = useNavigate();
   let date = new Date();
@@ -37,28 +41,27 @@ const Mission = () => {
       )
     );
   };
+  // console.log("authToken is: ", authToken);
+  // console.log("authKey is: ", authKey);
+  useEffect(() => {
+    setIsLoading(true);
+    fetch("http://localhost:8000/missions/", {
+      method: "GET",
+      headers: {
+        // Authorization: authToken, //백엔드 refresh token 받아온 이후로 적용하기
+        Authorization: authKey,
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
 
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   fetch("https://kids-todo-9fa26-default-rtdb.firebaseio.com/todo-list.json")
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       const missions = [];
-
-  //       for (const key in data) {
-  //         const mission = {
-  //           id: key,
-  //           ...data[key],
-  //         };
-  //         missions.push(mission);
-  //       }
-
-  //       setIsLoading(false);
-  //       setLoadedMissions(missions);
-  //     });
-  // }, []);
+        setIsLoading(false);
+        setLoadedMissions(data);
+      });
+  }, [authKey]);
 
   useEffect(() => {
     if (!isLoggedIn) {

@@ -6,23 +6,15 @@ const AllMissions = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch("https://kids-todo-9fa26-default-rtdb.firebaseio.com/todo-list.json")
+    fetch("http://localhost:8000/missions/")
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        const missions = [];
-
-        for (const key in data) {
-          const mission = {
-            id: key,
-            ...data[key],
-          };
-          missions.push(mission);
-        }
+        console.log(data);
 
         setIsLoading(false);
-        setLoadedMissions(missions);
+        setLoadedMissions(data);
       });
   }, []);
 };

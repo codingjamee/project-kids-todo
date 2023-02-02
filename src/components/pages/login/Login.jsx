@@ -67,14 +67,14 @@ const Login = () => {
     })
       .then((res) => {
         if (!res.ok) {
-          throw new Error(`Something wrong! The status is ${res.status}`);
+          throw new Error(`Error accured! The status is ${res.status}`);
         } else {
           return res.json();
         }
       })
       .then((data) => {
         console.log(data);
-        // localStorage.setItem("authKey", data.Authorization);
+        localStorage.setItem("authKey", data.Authorization);
         //로컬스토리지에 저장하는 방식은 보안상 취약하므로 아래의 방식으로 변경
         dispatch(authActions.login(data.Authorization)); //store/auth에 access token을 저장
         //token을 decode
