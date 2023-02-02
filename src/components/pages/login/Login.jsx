@@ -107,6 +107,7 @@ const Login = () => {
 
   // idState와 pwState가 변경될 때마다 validCheck
   // 0.1초마다 하는데 check가 남아있지 않도록 다시 시작할때마다 clearTimeout 실행
+  //formIsValid여야 버튼 활성화
   useEffect(() => {
     const validCheck = setTimeout(() => {
       setFormIsValid(idIsValid && pwIsValid);
