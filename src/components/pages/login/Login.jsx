@@ -50,6 +50,22 @@ const Login = () => {
   const dispatch = useDispatch();
   const cookies = new Cookies();
   const navigate = useNavigate();
+  const userSetting = (authKey, refreshKey) => {
+    localStorage.setItem("authKey", authKey);
+    //로컬스토리지에 저장하는 방식은 보안상 취약하므로 아래의 방식으로 변경
+    dispatch(authActions.login(authKey)); //store/auth에 access token을 저장
+    //token을 decode
+    const decoded = jwt(authKey);
+    //token에서 온 user정보를 저장
+    dispatch(authActions.user(decoded));
+    //refresh token을 cookie에 저장
+    cookies.set("jwt_authorization", refreshKey, {
+      expires: new Date(decoded.exp * 1000), //파기될때 삭제
+      httpOnly: true,
+    });
+    //홈페이지로 돌리기
+    navigate("/home");
+  };
 
   //로그인 버튼 클릭시, api통신
   const submitHandler = (e) => {
@@ -75,20 +91,7 @@ const Login = () => {
       })
       .then((data) => {
         console.log(data);
-        localStorage.setItem("authKey", data.Authorization);
-        //로컬스토리지에 저장하는 방식은 보안상 취약하므로 아래의 방식으로 변경
-        dispatch(authActions.login(data.Authorization)); //store/auth에 access token을 저장
-        //token을 decode
-        const decoded = jwt(data.Authorization);
-        //user정보를 저장
-        dispatch(authActions.user(decoded));
-        //refresh token을 cookie에 저장
-        cookies.set("jwt_authorization", data.RefreshToken, {
-          expires: new Date(decoded.exp * 1000), //파기될때 삭제
-          httpOnly: true,
-        });
-        //홈페이지로 돌리기
-        navigate("/home");
+        userSetting(data.Authorization, data.RefreshToken);
       })
       .catch((error) => {
         console.error(error.message);
