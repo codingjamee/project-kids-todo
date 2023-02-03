@@ -1,6 +1,6 @@
 import "./App.css";
 import Login from "./components/pages/login/Login";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./components/pages/homepage/HomePage";
 import Join from "./components/pages/join/Join";
 import Memo from "./components/pages/memo/Memo";
@@ -15,7 +15,8 @@ function App() {
       <Layout />
       <main>
         <Routes>
-          <Route exact path="/" element={<HomePage />} />
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/join" element={<Join />} />
           <Route path="/login" element={<Login />} />
           <Route path="/memo" element={<Memo />} />

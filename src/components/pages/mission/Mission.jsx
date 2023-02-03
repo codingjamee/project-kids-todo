@@ -9,8 +9,9 @@ import Card from "../../UI/Card";
 import classes from "./Mission.module.css";
 import AddMissionForm from "./AddMissionForm";
 import MissionList from "./MissionList";
-import { useSelector } from "react-redux";
-import auth, { authActions } from "../../store/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../store/auth";
+// import auth, { authActions } from "../../store/auth";
 
 const sampleMissions = [
   { id: 125123, title: "왕자님 만나기" },
@@ -19,13 +20,13 @@ const sampleMissions = [
 ];
 
 const Mission = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [onAddMission, setOnAddMission] = useState(false);
   const [loadedMissions, setLoadedMissions] = useState(sampleMissions);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
   // const authToken = useSelector((state) => state.auth.token);
   const authKey = localStorage.getItem("authKey");
-
   const navigate = useNavigate();
   let date = new Date();
   const thisMonth = date.getMonth() + 1;
@@ -34,15 +35,33 @@ const Mission = () => {
     setOnAddMission((prev) => !prev);
   };
 
-  const onModifyHandler = (modifiedTitle, targetId) => {
+  //미션 내용 수정 하기
+  const onModifyHandler = (
+    modifiedTitle,
+    comp_cur,
+    modified_tot_Count,
+    targetId
+  ) => {
+    fetch("http://localhost:8000/missions/", {
+      method: "PUT",
+      headers: {
+        Authorization: authKey,
+      },
+      body: JSON.stringify({
+        title: modifiedTitle,
+        comp_cur: comp_cur,
+        comp_tot: modified_tot_Count,
+      }),
+    });
     setLoadedMissions(
       loadedMissions.map((mission) =>
         mission.id === targetId ? { ...mission, title: modifiedTitle } : mission
       )
     );
   };
-  // console.log("authToken is: ", authToken);
   // console.log("authKey is: ", authKey);
+
+  //미션 내용 가져오기
   useEffect(() => {
     setIsLoading(true);
     fetch("http://localhost:8000/missions/", {
@@ -64,14 +83,14 @@ const Mission = () => {
   }, [authKey]);
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!user) {
       navigate("/login");
     }
-  }, [isLoggedIn, navigate]);
+  }, [user, navigate]);
 
   return (
     <Card>
-      {isLoggedIn && (
+      {user && (
         <>
           <section className={classes.month}>
             <Link to="/last-month">
@@ -89,6 +108,8 @@ const Mission = () => {
                   key={mission.id}
                   id={mission.id}
                   title={mission.title}
+                  cur_count={mission.comp_cur}
+                  tot_count={mission.comp_tot}
                   onModify={onModifyHandler}
                 />
               ))}

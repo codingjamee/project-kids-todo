@@ -1,14 +1,15 @@
 import { useEffect, useReducer, useState } from "react";
-import Card from "../../UI/Card";
-import Input from "../../UI/Input";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store/auth";
+import Card from "../../UI/Card";
+import Input from "../../UI/Input";
 import Cookies from "universal-cookie";
 import jwt from "jwt-decode";
 import classes from "./Login.module.css";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { BsFacebook } from "react-icons/bs";
 import { SiGmail } from "react-icons/si";
+import { useNavigate } from "react-router-dom";
 
 //id유효성체크, @이 포함되어있는가?
 // id유효성 검사
@@ -46,9 +47,9 @@ const Login = () => {
   const [formIsValid, setFormIsValid] = useState("");
   const { isValid: idIsValid } = idState;
   const { isValid: pwIsValid } = pwState;
-  const [login, setLogin] = useState(false);
   const dispatch = useDispatch();
   const cookies = new Cookies();
+  const navigate = useNavigate();
 
   //로그인 버튼 클릭시, api통신
   const submitHandler = (e) => {
@@ -86,8 +87,9 @@ const Login = () => {
           expires: new Date(decoded.exp * 1000), //파기될때 삭제
           httpOnly: true,
         });
+        //홈페이지로 돌리기
+        navigate("/home");
       })
-
       .catch((error) => {
         console.error(error.message);
       });

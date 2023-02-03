@@ -10,8 +10,8 @@ const MissionList = (props) => {
     setmissionDetail((prev) => !prev);
   };
 
-  const modifyMission = (modifiedTitle, id) => {
-    props.onModify(modifiedTitle, id);
+  const modifyMission = (modifiedTitle, comp_cur, modified_tot_Count, id) => {
+    props.onModify(modifiedTitle, comp_cur, modified_tot_Count, id);
   };
   return (
     <>
