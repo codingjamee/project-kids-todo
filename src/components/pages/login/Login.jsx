@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from "react";
 import { useDispatch } from "react-redux";
-import { authActions } from "../../store/auth";
+import { authActions } from "../../store/authSlice";
 import Card from "../../UI/Card";
 import Input from "../../UI/Input";
 import Cookies from "universal-cookie";

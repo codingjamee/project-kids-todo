@@ -1,9 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
-import authReducer from "./auth";
-import missionReducer from "./mission";
-import auth from "./auth";
+import authReducer from "./authSlice";
+import missionReducer from "./missionSlice";
+import auth from "./authSlice";
 
 const reducers = combineReducers({
   auth: authReducer,

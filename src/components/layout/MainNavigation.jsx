@@ -6,7 +6,7 @@ import join from "../images/join.png";
 
 import classes from "./MainNavigation.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../store/auth";
+import { authActions } from "../store/authSlice";
 import Button from "../UI/Button";
 
 const MainNavigation = () => {

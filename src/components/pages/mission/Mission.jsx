@@ -10,7 +10,7 @@ import classes from "./Mission.module.css";
 import AddMissionForm from "./AddMissionForm";
 import MissionList from "./MissionList";
 import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../../store/auth";
+import { authActions } from "../../store/authSlice";
 // import auth, { authActions } from "../../store/auth";
 
 const sampleMissions = [

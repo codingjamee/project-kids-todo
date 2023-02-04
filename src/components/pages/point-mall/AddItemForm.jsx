@@ -1,6 +1,6 @@
 import { createRef } from "react";
 import { useDispatch } from "react-redux";
-import { missionActions } from "../../store/mission";
+import { missionActions } from "../../store/missionSlice";
 import Button from "../../UI/Button";
 import Input from "../../UI/Input";
 import Modal from "../../UI/Modal";
