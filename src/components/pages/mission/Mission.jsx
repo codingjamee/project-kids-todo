@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
@@ -11,6 +11,7 @@ import AddMissionForm from "./AddMissionForm";
 import MissionList from "./MissionList";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/authSlice";
+import useHttp from "../../hooks/http";
 // import auth, { authActions } from "../../store/auth";
 
 const sampleMissions = [
@@ -21,15 +22,22 @@ const sampleMissions = [
 
 const Mission = () => {
   const [onAddMission, setOnAddMission] = useState(false);
-  const [loadedMissions, setLoadedMissions] = useState(sampleMissions);
-  const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
+  const [loadedData, setLoadedData] = useState([]);
   const user = useSelector((state) => state.auth.user);
   // const authToken = useSelector((state) => state.auth.token);
   const authKey = localStorage.getItem("authKey");
   const navigate = useNavigate();
   let date = new Date();
   const thisMonth = date.getMonth() + 1;
+  const {
+    httpIsLoading,
+    error,
+    data,
+    sendRequest,
+    reqExtra,
+    reqIdentifier,
+    clear,
+  } = useHttp();
 
   const onAddMissionHandler = () => {
     setOnAddMission((prev) => !prev);
@@ -42,46 +50,42 @@ const Mission = () => {
     modified_tot_Count,
     targetId
   ) => {
-    fetch("http://localhost:8000/missions/", {
-      method: "PUT",
-      headers: {
-        Authorization: authKey,
-      },
-      body: JSON.stringify({
-        title: modifiedTitle,
-        comp_cur: comp_cur,
-        comp_tot: modified_tot_Count,
-      }),
-    });
-    setLoadedMissions(
-      loadedMissions.map((mission) =>
-        mission.id === targetId ? { ...mission, title: modifiedTitle } : mission
-      )
-    );
+    // fetch("http://localhost:8000/missions/", {
+    //   method: "PUT",
+    //   headers: {
+    //     Authorization: authKey,
+    //   },
+    //   body: JSON.stringify({
+    //     title: modifiedTitle,
+    //     comp_cur: comp_cur,
+    //     comp_tot: modified_tot_Count,
+    //   }),
+    // });
+    // setLoadedMissions(
+    //   loadedMissions.map((mission) =>
+    //     mission.id === targetId ? { ...mission, title: modifiedTitle } : mission
+    //   )
+    // );
   };
   // console.log("authKey is: ", authKey);
 
   //미션 내용 가져오기
   useEffect(() => {
-    setIsLoading(true);
-    fetch("http://localhost:8000/missions/", {
-      method: "GET",
-      headers: {
-        // Authorization: authToken, //백엔드 refresh token 받아온 이후로 적용하기
-        Authorization: authKey,
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
+    sendRequest("http://localhost:8000/missions/", "GET", {
+      Authorization: authKey,
+      "Content-Type": "application/json",
+    });
 
-        setIsLoading(false);
-        setLoadedMissions(data);
-      });
-  }, [authKey]);
+    console.log(authKey);
+  }, [authKey, sendRequest]);
 
+  useEffect(() => {
+    if (!httpIsLoading && !error && data) {
+      setLoadedData(data);
+    }
+  }, [data, httpIsLoading, error]);
+
+  console.log(loadedData);
   useEffect(() => {
     if (!user) {
       navigate("/login");
@@ -103,13 +107,13 @@ const Mission = () => {
           </section>
           <section>
             <ul>
-              {loadedMissions.map((mission) => (
+              {loadedData.map((data) => (
                 <MissionList
-                  key={mission.id}
-                  id={mission.id}
-                  title={mission.title}
-                  cur_count={mission.comp_cur}
-                  tot_count={mission.comp_tot}
+                  key={data.id}
+                  id={data.id}
+                  title={data.title}
+                  cur_count={data.comp_cur}
+                  tot_count={data.comp_tot}
                   onModify={onModifyHandler}
                 />
               ))}

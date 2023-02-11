@@ -41,23 +41,23 @@ const useHttp = () => {
   }, []);
 
   const sendRequest = useCallback(
-    (url, method, body, reqExtra, reqIdentifier) => {
+    (url, method, headers, body, reqExtra, reqIdentifier) => {
       dispatchHttp({ type: "SEND", identifier: reqIdentifier });
       fetch(url, {
         method: method,
         body: body,
-        headers: { "Content-Type": "application/json" },
+        headers: headers,
       })
         .then((response) => {
           return response.json();
         })
-        .then((responseData) =>
+        .then((responseData) => {
           dispatchHttp({
             type: "RESPONSE",
             responseData: responseData,
             extra: reqExtra,
-          })
-        )
+          });
+        })
         .catch((error) => {
           dispatchHttp({
             type: "ERROR",
@@ -69,7 +69,7 @@ const useHttp = () => {
   );
 
   return {
-    isLoading: httpState.loading,
+    httpIsLoading: httpState.loading,
     data: httpState.data,
     error: httpState.error,
     sendRequest: sendRequest,

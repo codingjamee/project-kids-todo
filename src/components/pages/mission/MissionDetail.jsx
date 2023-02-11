@@ -24,6 +24,12 @@ const MissionDetail = (props) => {
     props.modifyMissionDetail(modifiedTitle, modified_tot_Count, id);
     setModifyState((prev) => !prev);
   };
+
+  //삭제하기
+  const onRemove = () => {
+    props.removeMission(id);
+  };
+
   return (
     <Modal onCloseModal={props.onClose}>
       <p>this is {props.title} mission Detail</p>
@@ -38,6 +44,7 @@ const MissionDetail = (props) => {
           </form>
         </Card>
       )}
+      <Button onClick={onRemove}>삭제하기</Button>
       <Button>성공!</Button>
       <Button onClick={props.onClose}>닫기</Button>
     </Modal>
