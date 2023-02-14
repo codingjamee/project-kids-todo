@@ -10,38 +10,34 @@ import classes from "./Mission.module.css";
 import AddMissionForm from "./AddMissionForm";
 import MissionList from "./MissionList";
 import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../../store/authSlice";
-import useHttp from "../../hooks/http";
+import { fetchMissionData } from "../../store/missionAct";
 // import auth, { authActions } from "../../store/auth";
-
-const sampleMissions = [
-  { id: 125123, title: "왕자님 만나기" },
-  { id: 12512233, title: "서두르는척 유리구두 떨어트리기" },
-  { id: 123415, title: "열두시에 집오기" },
-];
 
 const Mission = () => {
   const [onAddMission, setOnAddMission] = useState(false);
-  const [loadedData, setLoadedData] = useState([]);
   const user = useSelector((state) => state.auth.user);
+  const loadedData = useSelector((state) => state.mission.items);
+  const dispatch = useDispatch();
   // const authToken = useSelector((state) => state.auth.token);
-  const authKey = localStorage.getItem("authKey");
   const navigate = useNavigate();
   let date = new Date();
   const thisMonth = date.getMonth() + 1;
-  const {
-    httpIsLoading,
-    error,
-    data,
-    sendRequest,
-    reqExtra,
-    reqIdentifier,
-    clear,
-  } = useHttp();
 
   const onAddMissionHandler = () => {
     setOnAddMission((prev) => !prev);
   };
+
+  //로그아웃되면 login화면으로
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
+  //미션 내용 가져오기
+  useEffect(() => {
+    dispatch(fetchMissionData());
+  }, [dispatch]);
 
   //미션 내용 수정 하기
   const onModifyHandler = (
@@ -68,29 +64,6 @@ const Mission = () => {
     // );
   };
   // console.log("authKey is: ", authKey);
-
-  //미션 내용 가져오기
-  useEffect(() => {
-    sendRequest("http://localhost:8000/missions/", "GET", {
-      Authorization: authKey,
-      "Content-Type": "application/json",
-    });
-
-    console.log(authKey);
-  }, [authKey, sendRequest]);
-
-  useEffect(() => {
-    if (!httpIsLoading && !error && data) {
-      setLoadedData(data);
-    }
-  }, [data, httpIsLoading, error]);
-
-  console.log(loadedData);
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
 
   return (
     <Card>
