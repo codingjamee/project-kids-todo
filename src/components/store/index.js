@@ -15,18 +15,19 @@ import {
 } from "redux-persist";
 import authReducer from "./authSlice";
 import missionReducer from "./missionSlice";
-import auth from "./authSlice";
-
-const reducers = combineReducers({
-  auth: authReducer,
-  mission: missionReducer,
-});
+import uiReducer from "./uiSlice";
 
 const persistConfig = {
   key: "root",
   storage,
   blacklist: ["mission"],
 };
+
+const reducers = combineReducers({
+  auth: authReducer,
+  mission: missionReducer,
+  ui: uiReducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 

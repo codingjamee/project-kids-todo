@@ -10,9 +10,13 @@ const missionSlice = createSlice({
       state.items = action.payload;
     },
     modify(state, action) {
-      if (state.id === action.payload.id) {
-        state.map((mission) => (mission.title = action.payload.title));
+      if (state.items.id === action.payload.id) {
+        state.items.title = action.payload.title;
+        state.items.comp_tot = action.payload.totalCount;
       }
+    },
+    remove(state, action) {
+      state.items.filter(state.items.id !== action.id);
     },
   },
 });

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
@@ -39,32 +39,6 @@ const Mission = () => {
     dispatch(fetchMissionData());
   }, [dispatch]);
 
-  //미션 내용 수정 하기
-  const onModifyHandler = (
-    modifiedTitle,
-    comp_cur,
-    modified_tot_Count,
-    targetId
-  ) => {
-    // fetch("http://localhost:8000/missions/", {
-    //   method: "PUT",
-    //   headers: {
-    //     Authorization: authKey,
-    //   },
-    //   body: JSON.stringify({
-    //     title: modifiedTitle,
-    //     comp_cur: comp_cur,
-    //     comp_tot: modified_tot_Count,
-    //   }),
-    // });
-    // setLoadedMissions(
-    //   loadedMissions.map((mission) =>
-    //     mission.id === targetId ? { ...mission, title: modifiedTitle } : mission
-    //   )
-    // );
-  };
-  // console.log("authKey is: ", authKey);
-
   return (
     <Card>
       {user && (
@@ -87,7 +61,6 @@ const Mission = () => {
                   title={data.title}
                   cur_count={data.comp_cur}
                   tot_count={data.comp_tot}
-                  onModify={onModifyHandler}
                 />
               ))}
             </ul>

@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
+import { addMission } from "../../store/missionAct";
 import { missionActions } from "../../store/missionSlice";
 import Button from "../../UI/Button";
 import Input from "../../UI/Input";
@@ -12,40 +13,21 @@ const AddMissionForm = (props) => {
   const countRef = useRef(0);
   const authKey = localStorage.getItem("authKey");
 
-  const onSubmitAddMission = () => {
+  const onSubmitAddMission = (e) => {
+    e.preventDefault();
     const enteredTitle = titleRef.current.value;
     // const enteredMemo = memoRef.current.value;
     const enteredCount = countRef.current.value;
-    console.log(enteredCount);
 
     const enteredMission = {
       title: enteredTitle,
       comp_cur: 0,
       comp_tot: enteredCount,
     };
-    fetch("http://localhost:8000/missions/", {
-      method: "POST",
-      headers: {
-        // Authorization: authToken, //백엔드 refresh token 받아온 이후로 적용하기
-        "Content-type": "Application/json",
-        Authorization: authKey,
-      },
-      body: JSON.stringify(enteredMission),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-      });
-    // dispatch(
-    //   missionActions.add({
-    //     id: new Date().getTime().toString(),
-    //     title: enteredTitle,
-    //     memo: enteredMemo,
-    //   })
-    // );
+
+    dispatch(addMission(enteredMission));
   };
+
   return (
     <Modal onCloseModal={props.onformClose}>
       <form onSubmit={onSubmitAddMission}>

@@ -13,7 +13,6 @@ const authSlice = createSlice({
     login(state, action) {
       state.isAuthenticated = true;
       state.token = action.payload;
-      console.log(state.token);
     },
 
     logout(state) {
@@ -24,7 +23,6 @@ const authSlice = createSlice({
     },
     user(state, action) {
       state.user = action.payload;
-      console.log(state.user);
     },
   },
 });

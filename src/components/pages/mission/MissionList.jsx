@@ -1,18 +1,15 @@
-import { useState } from "react";
 import Card from "../../UI/Card";
 
-import classes from "./MissionList.module.css";
 import MissionDetail from "./MissionDetail";
+import { useState } from "react";
 const MissionList = (props) => {
-  const [missionDetail, setmissionDetail] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
 
+  //미션상세창 열기
   const missionDetailHandler = () => {
-    setmissionDetail((prev) => !prev);
+    setOpenDetail((prev) => !prev);
   };
 
-  const modifyMission = (modifiedTitle, comp_cur, modified_tot_Count, id) => {
-    props.onModify(modifiedTitle, comp_cur, modified_tot_Count, id);
-  };
   return (
     <>
       <li key={props.id}>
@@ -20,12 +17,11 @@ const MissionList = (props) => {
           <p>{props.title}</p>
         </Card>
       </li>
-      {missionDetail && (
+      {openDetail && (
         <MissionDetail
           title={props.title}
           id={props.id}
-          onClose={missionDetailHandler}
-          modifyMissionDetail={modifyMission}
+          openDetailHandler={missionDetailHandler}
         />
       )}
     </>
