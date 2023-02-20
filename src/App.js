@@ -15,7 +15,7 @@ function App() {
       <Layout />
       <main>
         <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/" exact element={<Navigate to="/home" />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/join" element={<Join />} />
           <Route path="/login" element={<Login />} />

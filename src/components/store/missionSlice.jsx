@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { items: [], point: 0 };
+const initialState = { items: [], detailItem: {}, changed: false, point: 0 };
 
 const missionSlice = createSlice({
   name: "mission",
@@ -17,6 +17,9 @@ const missionSlice = createSlice({
     },
     remove(state, action) {
       state.items.filter(state.items.id !== action.id);
+    },
+    addDetail(state, action) {
+      state.detailItem = action.payload;
     },
   },
 });

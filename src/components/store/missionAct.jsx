@@ -1,6 +1,6 @@
-import { useLocation } from "react-router-dom";
 import { missionActions } from "./missionSlice";
 
+//미션 목록 가져오기
 export const fetchMissionData = () => {
   const authKey = localStorage.getItem("authKey");
 
@@ -25,9 +25,35 @@ export const fetchMissionData = () => {
   };
 };
 
+//미션 상세목록 가져오기
+export const fetchMissionDetailData = (id) => {
+  const authKey = localStorage.getItem("authKey");
+
+  return async (dispatch) => {
+    const fetchData = async () => {
+      const response = await fetch(`http://localhost:8000/missions/${id}/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authKey,
+        },
+      });
+      const data = await response.json();
+      return data;
+    };
+
+    try {
+      const missionData = await fetchData();
+      console.log(missionData);
+      dispatch(missionActions.addDetail(missionData));
+    } catch (error) {}
+  };
+};
+
 //미션 삭제하기
 export const removeMission = (id) => {
   const authKey = localStorage.getItem("authKey");
+
   return async (dispatch) => {
     const deleteData = async () => {
       const response = await fetch("http://localhost:8000/missions/" + id, {
@@ -45,7 +71,6 @@ export const removeMission = (id) => {
       await deleteData();
       dispatch(missionActions.remove(id));
       console.log("id" + id + "is deleted");
-      useLocation.reload();
     } catch (error) {}
   };
 };
@@ -103,7 +128,6 @@ export const addMission = (enteredMission) => {
     try {
       await addData();
       dispatch(missionActions.add(enteredMission));
-      useLocation.reload();
     } catch (error) {}
   };
 };

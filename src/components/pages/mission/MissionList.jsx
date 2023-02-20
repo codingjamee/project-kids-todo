@@ -9,12 +9,14 @@ const MissionList = (props) => {
   const missionDetailHandler = () => {
     setOpenDetail((prev) => !prev);
   };
+  console.log("comp_cur : " + props.cur_count);
 
   return (
     <>
       <li key={props.id}>
         <Card onClick={missionDetailHandler} className="act">
           <p>{props.title}</p>
+          <progress value={props.cur_count} min="0" max={props.tot_count} />
         </Card>
       </li>
       {openDetail && (

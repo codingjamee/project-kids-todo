@@ -5,7 +5,6 @@ import Button from "../../UI/Button";
 import Card from "../../UI/Card";
 
 const HomePage = () => {
-  const [login, setLogin] = useState(false);
   const ref = React.createRef();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);

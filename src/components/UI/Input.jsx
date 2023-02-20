@@ -10,9 +10,11 @@ const Input = React.forwardRef((props, ref) => {
         type={props.type}
         id={props.id}
         value={props.value}
+        defaultValue={props.defaultValue}
         onChange={props.onChange}
         title={props.placeholder}
         onBlur={props.onBlur}
+        placeholder={props.placeholder}
       />
     </div>
   );
