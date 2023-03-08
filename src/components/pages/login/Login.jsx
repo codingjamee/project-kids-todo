@@ -51,22 +51,53 @@ const Login = () => {
   const cookies = new Cookies();
   const navigate = useNavigate();
 
-  const userSetting = (authKey, refreshKey) => {
-    localStorage.setItem("authKey", authKey);
+  const userSetting = (accessKey, refreshKey) => {
+    // localStorage.setItem("authKey", authKey);
     //로컬스토리지에 저장하는 방식은 보안상 취약하므로 아래의 방식으로 변경
-    dispatch(authActions.login(authKey)); //store/auth에 access token을 저장
+    dispatch(authActions.login(accessKey)); //store/auth에 access token을 저장
     //token을 decode
-    const decoded = jwt(authKey);
+    const decoded = jwt(accessKey);
     //token에서 온 user정보를 저장
     dispatch(authActions.user(decoded));
     //refresh token을 cookie에 저장
-    // cookies.set("jwt_authorization", refreshKey, {
-    //   expires: new Date(decoded.exp * 1000), //파기될때 삭제
-    //   httpOnly: true,
-    // });
+    cookies.set("refreshToken", refreshKey, {
+      expires: new Date(decoded.exp * 1000), //만료될때 삭제
+      // httpOnly: true,
+    });
+
     //홈페이지로 돌리기
     navigate("/home");
   };
+
+  //cookie에 access, refresh token을 저장하는 방식
+  //일단 redux에 access token을 저장, refresh token은 cookie에 저장 방식 채택
+  // const setCookie = (name, value, options = {}) => {
+  //   const { path, domain, secure } = options;
+  //   let { expires } = options;
+  //   let cookieString = `${name}=${value};`;
+
+  //   if (expires) {
+  //     if (expires instanceof Date) {
+  //       expires = expires.toUTCString();
+  //     }
+  //     cookieString += `expires=${expires};`;
+  //   }
+
+  //   if (path) {
+  //     cookieString += `path=${path};`;
+  //   }
+
+  //   if (domain) {
+  //     cookieString += `domain=${domain};`;
+  //   }
+
+  //   if (secure) {
+  //     cookieString += "secure;";
+  //   }
+
+  //   document.cookie = cookieString;
+  //   navigate("/home");
+  // };
 
   //로그인 버튼 클릭시, api통신
   const submitHandler = (e) => {
@@ -92,7 +123,16 @@ const Login = () => {
       })
       .then((data) => {
         console.log(data);
-        userSetting(data.Authorization, data.RefreshToken);
+        userSetting(data.access_token, data.refresh_token);
+
+        // setCookie("access_token", data.access_token, {
+        //   expires: new Date(Date.now() + 3600 * 1000),
+        //   path: "/",
+        // });
+        // setCookie("refresh_token", data.refresh_token, {
+        //   expires: new Date(Date.now() + 30 * 24 * 3600 * 1000),
+        //   path: "/",
+        // });
       })
       .catch((error) => {
         console.error(error.message);

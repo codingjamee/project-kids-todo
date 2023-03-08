@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import mission from "../images/mission.png";
+import today_mission from "../images/mission.png";
+import calender from "../images/calender.png";
 import memo from "../images/memo.png";
 import present2 from "../images/present2.png";
 import timer from "../images/timer.png";
@@ -10,9 +11,14 @@ const Navigation = () => {
   return (
     <nav className={classes.nav}>
       <ul>
+        {/* <li>
+          <Link to="/todayMission">
+            <img src={today_mission} alt="today_mission" />
+          </Link>
+        </li> */}
         <li>
           <Link to="/mission">
-            <img src={mission} alt="mission" />
+            <img src={calender} alt="mission" />
           </Link>
         </li>
         <li>

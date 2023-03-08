@@ -1,6 +1,7 @@
 import "./App.css";
 import Login from "./components/pages/login/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
+
 import HomePage from "./components/pages/homepage/HomePage";
 import Join from "./components/pages/join/Join";
 import Memo from "./components/pages/memo/Memo";

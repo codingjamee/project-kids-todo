@@ -1,3 +1,9 @@
-.App {
+html {
   text-align: center;
+  background-image: url("./components/images/grass.png");
+  background-size: 100% calc(100vw / 5);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  min-width: 100vw;
 }

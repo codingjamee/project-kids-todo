@@ -84,6 +84,7 @@ summary,
 time,
 mark,
 audio,
+main,
 video {
   margin: 0;
   padding: 0;
@@ -131,12 +132,17 @@ table {
 
 html {
   font-family: "Poor Story", cursive;
-  font-size: 24px;
+  font-size: 16px;
   background: #fff;
+  margin: 0;
 }
 
 body {
   margin: 0;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  /* background-size: 100vh; */
+  width: 100%;
 }
 
 button {
@@ -164,12 +170,14 @@ a {
 /* MEDIA QUERY */
 @media (max-width: 768px) {
   html {
-    font-size: 14px;
+    font-size: 12px;
     background: #fff;
+    background-image: url("./components/images/trees.png");
+    margin: 0;
   }
 
   button {
-    font-size: 14px;
+    font-size: 12px;
   }
 }
 

@@ -19,10 +19,12 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.token = null;
       state.user = null;
-      window.localStorage.removeItem("authKey");
     },
     user(state, action) {
       state.user = action.payload;
+    },
+    setToken(state, action) {
+      state.token = action.payload;
     },
   },
 });

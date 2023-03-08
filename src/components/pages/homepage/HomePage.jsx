@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 import Button from "../../UI/Button";
 import Card from "../../UI/Card";
 
@@ -8,7 +9,8 @@ const HomePage = () => {
   const ref = React.createRef();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
+  const cookies = new Cookies();
+  console.log("refreshKey : " + cookies.get("refreshKey"));
 
   const onUserStart = () => {
     navigate("/mission");

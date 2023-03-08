@@ -17,11 +17,13 @@ const MissionDetail = (props) => {
   const [showModify, setShowModify] = useState(false);
   const dispatch = useDispatch();
   const missionDetail = useSelector((state) => state.mission.detailItem);
+  const authToken = useSelector((state) => state.auth.token);
+
   const { id } = props;
 
   useEffect(() => {
-    dispatch(fetchMissionDetailData(id));
-  }, [dispatch, id]);
+    dispatch(fetchMissionDetailData(id, authToken));
+  }, [dispatch, id, authToken]);
 
   //수정창 열기
   const modifyHandler = () => {
@@ -38,7 +40,7 @@ const MissionDetail = (props) => {
       comp_cur: modifiedCurCount,
       comp_tot: curTotCount,
     };
-    dispatch(modifyMission(id, modifiedData));
+    dispatch(modifyMission(id, modifiedData, authToken));
     window.location.replace("/mission");
   };
 
@@ -52,14 +54,14 @@ const MissionDetail = (props) => {
       comp_cur: missionDetail.comp_cur || 0,
       comp_tot: modified_tot_Count,
     };
-    dispatch(modifyMission(id, modifiedData));
+    dispatch(modifyMission(id, modifiedData, authToken));
     window.location.replace("/mission");
     console.log("수정후 mission으로 navigate보내기");
   };
 
   //미션삭제하기
   const onRemove = () => {
-    dispatch(removeMission(id));
+    dispatch(removeMission(id, authToken));
     window.location.replace("/mission");
   };
 

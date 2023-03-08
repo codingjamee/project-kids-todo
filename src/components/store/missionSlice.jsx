@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { items: [], detailItem: {}, changed: false, point: 0 };
+const initialState = { items: [], detailItem: {} };
 
 const missionSlice = createSlice({
   name: "mission",

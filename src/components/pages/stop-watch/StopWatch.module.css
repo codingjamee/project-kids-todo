@@ -4,7 +4,7 @@
 
 .watch div {
   height: 50%;
-  font-size: 2.5rem;
+  font-size: 2rem;
 }
 
 .buttons {
@@ -16,4 +16,16 @@
 .buttons Button {
   padding: 2rem;
   margin: 0.7rem;
+}
+
+/* MEDIA QUERY */
+@media (max-width: 768px) {
+  .watch div {
+    font-size: 1.5rem;
+  }
+
+  .buttons Button {
+    padding: 1.5rem;
+    margin: 0.7rem;
+  }
 }

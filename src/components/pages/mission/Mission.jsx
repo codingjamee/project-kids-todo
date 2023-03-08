@@ -10,7 +10,9 @@ import classes from "./Mission.module.css";
 import AddMissionForm from "./AddMissionForm";
 import MissionList from "./MissionList";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMissionData } from "../../store/missionAct";
+import Cookies from "universal-cookie";
+import { fetchMissionData, getToken } from "../../store/missionAct";
+import { authActions } from "../../store/authSlice";
 // import auth, { authActions } from "../../store/auth";
 
 const Mission = () => {
@@ -18,14 +20,27 @@ const Mission = () => {
   const user = useSelector((state) => state.auth.user);
   const loadedData = useSelector((state) => state.mission.items);
   const dispatch = useDispatch();
-  // const authToken = useSelector((state) => state.auth.token);
   const navigate = useNavigate();
   let date = new Date();
   const thisMonth = date.getMonth() + 1;
+  const authToken = useSelector((state) => state.auth.token);
+  const cookies = new Cookies();
+  const refreshToken = cookies.get("refreshToken");
+
+  console.log(authToken);
+  console.log("refreshToken : " + refreshToken);
 
   const onAddMissionHandler = () => {
     setOnAddMission((prev) => !prev);
   };
+
+  //refreshToken이 만료되어 삭제되면 logout됨
+  useEffect(() => {
+    if (!refreshToken) {
+      dispatch(authActions.logout());
+    }
+    console.log(refreshToken);
+  }, [refreshToken, navigate, dispatch]);
 
   //로그아웃되면 login화면으로
   useEffect(() => {
@@ -36,8 +51,9 @@ const Mission = () => {
 
   //미션 내용 가져오기
   useEffect(() => {
-    dispatch(fetchMissionData());
-  }, [dispatch]);
+    dispatch(getToken(refreshToken));
+    dispatch(fetchMissionData(authToken));
+  }, [dispatch, authToken, refreshToken]);
 
   return (
     <Card>

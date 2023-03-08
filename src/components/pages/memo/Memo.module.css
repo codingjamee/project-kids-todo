@@ -1,0 +1,20 @@
+.control label {
+  display: block;
+  margin: 20px;
+}
+
+.control textarea {
+  flex: 2;
+  font: inherit;
+  margin: 40px auto;
+  padding: 0.35rem 0.35rem;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 70%;
+  display: block;
+}
+
+.control textarea:focus {
+  background: #f0e68c;
+  outline: none;
+}

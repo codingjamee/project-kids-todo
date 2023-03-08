@@ -29,3 +29,12 @@
     transform: translateY(0);
   }
 }
+
+/* MEDIA QUERY */
+@media (max-width: 768px) {
+  .card {
+    margin: 3rem auto;
+    width: 80%;
+    padding: 1rem;
+  }
+}
