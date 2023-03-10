@@ -1,4 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 const initialAuthState = {
   isAuthenticated: false,
@@ -19,6 +22,7 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.token = null;
       state.user = null;
+      cookies.remove("refreshToken");
     },
     user(state, action) {
       state.user = action.payload;

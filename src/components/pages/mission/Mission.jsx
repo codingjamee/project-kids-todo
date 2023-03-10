@@ -24,36 +24,28 @@ const Mission = () => {
   let date = new Date();
   const thisMonth = date.getMonth() + 1;
   const authToken = useSelector((state) => state.auth.token);
+  const authenticated = useSelector((state) => state.auth.isAuthenticated);
   const cookies = new Cookies();
   const refreshToken = cookies.get("refreshToken");
+  console.log("refresh Token : " + refreshToken);
 
-  console.log(authToken);
-  console.log("refreshToken : " + refreshToken);
+  console.log("access Token : " + authToken);
 
   const onAddMissionHandler = () => {
     setOnAddMission((prev) => !prev);
   };
 
-  //refreshToken이 만료되어 삭제되면 logout됨
-  useEffect(() => {
-    if (!refreshToken) {
-      dispatch(authActions.logout());
-    }
-    console.log(refreshToken);
-  }, [refreshToken, navigate, dispatch]);
-
-  //로그아웃되면 login화면으로
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
-
   //미션 내용 가져오기
   useEffect(() => {
-    dispatch(getToken(refreshToken));
-    dispatch(fetchMissionData(authToken));
-  }, [dispatch, authToken, refreshToken]);
+    if (user && refreshToken) {
+      dispatch(getToken(refreshToken));
+      dispatch(fetchMissionData(authToken));
+    } else {
+      //로그아웃을 누르거나 refreshToken이 만료되면 logout후 login화면으로
+      dispatch(authActions.logout());
+      navigate("/login");
+    }
+  }, [dispatch, navigate, authToken, refreshToken, user]);
 
   return (
     <Card>

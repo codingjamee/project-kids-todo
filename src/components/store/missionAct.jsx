@@ -19,6 +19,7 @@ export const fetchMissionData = (authKey) => {
 
     try {
       const missionData = await fetchData();
+      console.log("fetch Mission Data");
       console.log(missionData);
       dispatch(missionActions.add(missionData));
     } catch (error) {}

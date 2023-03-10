@@ -1,22 +1,22 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
+import { authActions } from "../../store/authSlice";
 import Button from "../../UI/Button";
 import Card from "../../UI/Card";
 
 const HomePage = () => {
   const ref = React.createRef();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const cookies = new Cookies();
-  console.log("refreshKey : " + cookies.get("refreshKey"));
 
   const onUserStart = () => {
     navigate("/mission");
   };
 
   const onLoginStart = () => {
+    dispatch(authActions.logout());
     navigate("/login");
   };
 
