@@ -24,7 +24,6 @@ const Mission = () => {
   let date = new Date();
   const thisMonth = date.getMonth() + 1;
   const authToken = useSelector((state) => state.auth.token);
-  const authenticated = useSelector((state) => state.auth.isAuthenticated);
   const cookies = new Cookies();
   const refreshToken = cookies.get("refreshToken");
   console.log("refresh Token : " + refreshToken);
