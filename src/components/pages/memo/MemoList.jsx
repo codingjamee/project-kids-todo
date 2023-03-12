@@ -12,8 +12,7 @@ const MemoList = (props) => {
     <>
       <li>
         <Card onClick={openDetailHandler}>
-          <p>{props.title}</p>
-          <p>{props.created}</p>
+          <h1>{`메모제목 : ${props.title} (${props.created} 작성)`}</h1>
         </Card>
       </li>
       {openDetail && (
@@ -21,7 +20,7 @@ const MemoList = (props) => {
           title={props.title}
           content={props.content}
           created={props.created}
-          updated={props.updated_at}
+          updated={props.updated}
           memoDetailHandler={openDetailHandler}
         />
       )}

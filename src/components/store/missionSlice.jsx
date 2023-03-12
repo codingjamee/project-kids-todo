@@ -7,7 +7,12 @@ const missionSlice = createSlice({
   initialState,
   reducers: {
     add(state, action) {
-      state.items = action.payload;
+      if (action.payload.message !== "Could not validate credentials") {
+        console.log("미션목록을 추가합니다!");
+        state.items = action.payload;
+      } else {
+        console.log("미션목록 가져오기 실패!");
+      }
     },
     modify(state, action) {
       if (state.items.id === action.payload.id) {

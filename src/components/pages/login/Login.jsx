@@ -1,15 +1,13 @@
 import { useEffect, useReducer, useState } from "react";
-import { useDispatch } from "react-redux";
-import { authActions } from "../../store/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../UI/Card";
 import Input from "../../UI/Input";
-import Cookies from "universal-cookie";
-import jwt from "jwt-decode";
 import classes from "./Login.module.css";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { BsFacebook } from "react-icons/bs";
 import { SiGmail } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
+import { userLogin } from "../../store/authAct";
 
 //id유효성체크, @이 포함되어있는가?
 // id유효성 검사
@@ -48,26 +46,8 @@ const Login = () => {
   const { isValid: idIsValid } = idState;
   const { isValid: pwIsValid } = pwState;
   const dispatch = useDispatch();
-  const cookies = new Cookies();
   const navigate = useNavigate();
-
-  const userSetting = (accessKey, refreshKey) => {
-    // localStorage.setItem("authKey", authKey);
-    //로컬스토리지에 저장하는 방식은 보안상 취약하므로 아래의 방식으로 변경
-    dispatch(authActions.login(accessKey)); //store/auth에 access token을 저장
-    //token을 decode
-    const decoded = jwt(accessKey);
-    //token에서 온 user정보를 저장
-    dispatch(authActions.user(decoded));
-    //refresh token을 cookie에 저장
-    cookies.set("refreshToken", refreshKey, {
-      expires: new Date(decoded.exp * 1000), //만료될때 삭제
-      // httpOnly: true,
-    });
-
-    //홈페이지로 돌리기
-    navigate("/home");
-  };
+  const user = useSelector((state) => state.auth.user);
 
   //cookie에 access, refresh token을 저장하는 방식
   //일단 redux에 access token을 저장, refresh token은 cookie에 저장 방식 채택
@@ -100,7 +80,7 @@ const Login = () => {
   // };
 
   //로그인 버튼 클릭시, api통신
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     console.log("submit clicked");
     console.log(idState.value, pwState.value);
@@ -109,35 +89,14 @@ const Login = () => {
     const formData = new FormData();
     formData.append("username", `${idState.value}`);
     formData.append("password", `${pwState.value}`);
-
-    fetch("http://localhost:8000/login/", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Error accured! The status is ${res.status}`);
-        } else {
-          return res.json();
-        }
-      })
-      .then((data) => {
-        console.log(data);
-        userSetting(data.access_token, data.refresh_token);
-
-        // setCookie("access_token", data.access_token, {
-        //   expires: new Date(Date.now() + 3600 * 1000),
-        //   path: "/",
-        // });
-        // setCookie("refresh_token", data.refresh_token, {
-        //   expires: new Date(Date.now() + 30 * 24 * 3600 * 1000),
-        //   path: "/",
-        // });
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
+    dispatch(userLogin(formData));
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+    }
+  }, [user, navigate]);
 
   const idChangeHandler = (e) => {
     dispatchId({ type: "USER_INPUT", val: e.target.value });

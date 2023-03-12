@@ -8,6 +8,7 @@ const memoSlice = createSlice({
   reducers: {
     add(state, action) {
       state.memos = action.payload;
+      console.log(state.memos);
     },
     modify(state, action) {},
   },

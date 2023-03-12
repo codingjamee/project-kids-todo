@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-import { authActions } from "./authSlice";
 import { missionActions } from "./missionSlice";
 
 //미션 목록 가져오기
@@ -13,16 +11,17 @@ export const fetchMissionData = (authKey) => {
           Authorization: "Bearer " + authKey,
         },
       });
-      const data = await response.json();
-      return data;
+      return await response.json();
     };
 
     try {
       const missionData = await fetchData();
-      console.log("fetch Mission Data");
+      console.log(`데이터를 가져오는 중!`);
       console.log(missionData);
       dispatch(missionActions.add(missionData));
-    } catch (error) {}
+    } catch (error) {
+      throw new Error(error.message);
+    }
   };
 };
 
@@ -122,28 +121,6 @@ export const removeMission = (id, authKey) => {
       await deleteData();
       dispatch(missionActions.remove(id));
       console.log("id" + id + "is deleted");
-    } catch (error) {}
-  };
-};
-
-//access token가져오기
-export const getToken = (authKey) => {
-  return async (dispatch) => {
-    const getAccessToken = async () => {
-      const response = await fetch("http://localhost:8000/refresh-token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + authKey,
-        },
-      });
-      const data = await response.json();
-      return data;
-    };
-    try {
-      const fetchedAccess = await getAccessToken();
-      console.log(fetchedAccess);
-      dispatch(authActions.setToken(fetchedAccess.access_token));
     } catch (error) {}
   };
 };

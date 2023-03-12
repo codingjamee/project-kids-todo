@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addMission } from "../../store/missionAct";
 import Button from "../../UI/Button";
 import Input from "../../UI/Input";
@@ -9,6 +9,7 @@ const AddMissionForm = (props) => {
   const dispatch = useDispatch();
   const titleRef = useRef();
   const countRef = useRef(0);
+  const accessKey = useSelector((state) => state.auth.token);
 
   const onSubmitAddMission = (e) => {
     e.preventDefault();
@@ -22,7 +23,7 @@ const AddMissionForm = (props) => {
       comp_tot: enteredCount,
     };
 
-    dispatch(addMission(enteredMission));
+    dispatch(addMission(enteredMission, accessKey));
     window.location.replace("/mission");
   };
 

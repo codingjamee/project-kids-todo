@@ -8,9 +8,10 @@ const MemoDetail = (props) => {
   return (
     <Modal onCloseModal={closeDetail}>
       <Card>
-        <h1>{props.title}</h1>
-        <h3>{props.created}</h3>
-        <p>{props.content}</p>
+        <h1>{`제목 : ${props.title}`}</h1>
+        <h3>{`작성일시: ${props.created}`}</h3>
+        <hr />
+        내용: <p>{props.content}</p>
       </Card>
     </Modal>
   );
