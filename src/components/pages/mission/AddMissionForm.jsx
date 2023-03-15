@@ -24,7 +24,7 @@ const AddMissionForm = (props) => {
     };
 
     dispatch(addMission(enteredMission, accessKey));
-    window.location.replace("/mission");
+    props.onformClose();
   };
 
   return (

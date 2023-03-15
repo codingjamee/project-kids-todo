@@ -40,8 +40,10 @@ const MissionDetail = (props) => {
       comp_cur: modifiedCurCount,
       comp_tot: curTotCount,
     };
+    console.log("성공 클릭됨");
     dispatch(modifyMission(id, modifiedData, authToken));
-    window.location.replace("/mission");
+    modifyHandler();
+    closeDetail();
   };
 
   //수정한 내용 제출
@@ -54,15 +56,16 @@ const MissionDetail = (props) => {
       comp_cur: missionDetail.comp_cur || 0,
       comp_tot: modified_tot_Count,
     };
+    console.log("내용수정하기 클릭됨");
     dispatch(modifyMission(id, modifiedData, authToken));
-    window.location.replace("/mission");
-    console.log("수정후 mission으로 navigate보내기");
+    modifyHandler();
+    closeDetail();
   };
 
   //미션삭제하기
   const onRemove = () => {
     dispatch(removeMission(id, authToken));
-    window.location.replace("/mission");
+    props.openDetailHandler();
   };
 
   //detail창 닫기

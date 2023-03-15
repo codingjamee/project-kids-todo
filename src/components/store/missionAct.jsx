@@ -52,6 +52,7 @@ export const fetchMissionDetailData = (id, authKey) => {
 export const addMission = (enteredMission, authKey) => {
   return async (dispatch) => {
     const addData = async () => {
+      console.log("addData를 실행");
       const response = await fetch("http://localhost:8000/missions/", {
         method: "POST",
         headers: {
@@ -61,13 +62,19 @@ export const addMission = (enteredMission, authKey) => {
         },
         body: JSON.stringify(enteredMission),
       });
-      const data = await response.data();
+      const data = await response.json();
+      console.log("add data의 결과 : ");
+      console.log(data);
       return data;
     };
 
     try {
-      await addData();
-      dispatch(missionActions.add(enteredMission));
+      const addDataResult = await addData();
+      console.log(addDataResult);
+      if (addDataResult.title) {
+        console.log("add Data가 성공하였으므로 다시 미션을 추가합니다");
+        dispatch(missionActions.reAdd(addDataResult));
+      }
     } catch (error) {}
   };
 };
@@ -91,13 +98,18 @@ export const modifyMission = (id, modifiedData, authKey) => {
 
     try {
       const responseData = await modifyData();
-      dispatch(
-        missionActions.modify({
-          id: id,
-          title: responseData.title,
-          totalCount: responseData.comp_tot,
-        })
-      );
+      if (responseData.title) {
+        console.log(
+          "미션 수정이 성공하였으므로 수정된 데이터를 업데이트합니다."
+        );
+        dispatch(
+          missionActions.modify({
+            id: id,
+            title: responseData.title,
+            totalCount: responseData.comp_tot,
+          })
+        );
+      }
     } catch (error) {}
   };
 };
@@ -114,12 +126,16 @@ export const removeMission = (id, authKey) => {
         },
       });
       const data = await response.json();
+      console.log(data);
       return data;
     };
 
     try {
-      await deleteData();
-      dispatch(missionActions.remove(id));
+      const deleted = await deleteData();
+      if (deleted.deleted_mission) {
+        console.log("미션삭제에 성공했으므로 미션 목록에서 제거합니다");
+        dispatch(missionActions.remove(id));
+      }
       console.log("id" + id + "is deleted");
     } catch (error) {}
   };

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Card from "../../UI/Card";
 import MemoDetail from "./MemoDetail";
 
 const MemoList = (props) => {
@@ -11,9 +10,10 @@ const MemoList = (props) => {
   return (
     <>
       <li>
-        <Card onClick={openDetailHandler}>
-          <h1>{`메모제목 : ${props.title} (${props.created} 작성)`}</h1>
-        </Card>
+        <h1
+          onClick={openDetailHandler}
+        >{`메모제목 : ${props.title} (${props.created} 작성)`}</h1>
+        <hr />
       </li>
       {openDetail && (
         <MemoDetail

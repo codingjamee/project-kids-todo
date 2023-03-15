@@ -71,17 +71,19 @@ const Memo = () => {
         </form>
       </Card>
       <ul>
-        {user &&
-          memoData.map((data) => (
-            <MemoList
-              key={data.id}
-              id={data.id}
-              title={data.title}
-              content={data.content}
-              created={data.created_at}
-              updated={data.updated_at}
-            />
-          ))}
+        <Card>
+          {user &&
+            memoData.map((data) => (
+              <MemoList
+                key={data.id}
+                id={data.id}
+                title={data.title}
+                content={data.content}
+                created={data.created_at}
+                updated={data.updated_at}
+              />
+            ))}
+        </Card>
       </ul>
     </>
   );

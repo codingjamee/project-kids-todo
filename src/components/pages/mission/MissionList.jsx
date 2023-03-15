@@ -9,7 +9,6 @@ const MissionList = (props) => {
   const missionDetailHandler = () => {
     setOpenDetail((prev) => !prev);
   };
-  console.log("comp_cur : " + props.cur_count);
 
   return (
     <>

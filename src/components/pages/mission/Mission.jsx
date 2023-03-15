@@ -14,7 +14,6 @@ import Cookies from "universal-cookie";
 import { fetchMissionData } from "../../store/missionAct";
 import { getToken } from "../../store/authAct";
 import { authActions } from "../../store/authSlice";
-import { missionActions } from "../../store/missionSlice";
 // import auth, { authActions } from "../../store/auth";
 
 const Mission = () => {
@@ -30,6 +29,7 @@ const Mission = () => {
   const refreshToken = cookies.get("refreshToken");
   const tokenIsChanged = useSelector((state) => state.auth.tokenIsChanged);
 
+  console.log(loadedData);
   const onAddMissionHandler = () => {
     setOnAddMission((prev) => !prev);
   };
@@ -40,9 +40,9 @@ const Mission = () => {
       //user가 있거나 token이 변경된 경우 미션목록을 다시 가져오기
       console.log(
         "토큰이 변경되거나 유저가 설정되어 미션목록을 다시 가져옵니다" +
-          "user : " +
+          " user : " +
           user +
-          "tokenIsChanged : " +
+          " tokenIsChanged : " +
           tokenIsChanged
       );
       console.log(user);

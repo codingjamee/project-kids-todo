@@ -32,10 +32,10 @@
   width: 50px;
 }
 
-.header a:hover,
-.header a:active,
-.header a.active {
-  color: #95bcf0;
+.header img:hover,
+.header img:active,
+.header img.active {
+  transform: scale(1.5);
 }
 
 .header p:hover,
