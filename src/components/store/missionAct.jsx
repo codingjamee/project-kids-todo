@@ -102,13 +102,8 @@ export const modifyMission = (id, modifiedData, authKey) => {
         console.log(
           "미션 수정이 성공하였으므로 수정된 데이터를 업데이트합니다."
         );
-        dispatch(
-          missionActions.modify({
-            id: id,
-            title: responseData.title,
-            totalCount: responseData.comp_tot,
-          })
-        );
+        dispatch(missionActions.remove(id));
+        dispatch(missionActions.reAdd(responseData));
       }
     } catch (error) {}
   };
